@@ -37,7 +37,7 @@
 
 ## 🌿 1.1 Introduction to React
 
-\***\*Understanding the Vue instance, data, methods, computed properties, and lifecycle hooks.\*\*** <br>
+**Understanding the Vue instance, data, methods, computed properties, and lifecycle hooks.** <br>
 The Vue instance is at the core of Vue.js and serves as the root of every Vue application. It's responsible for managing the data, methods, computed properties, and lifecycle hooks of your Vue components.<br>
 
 ```
@@ -64,11 +64,11 @@ var app = new Vue({
 <div align="center"><h2>🌿 Basics of React Components</h2></div>
 ## 🍃 1.4 Your first component:
 
-\***\*1. Understanding Components in React\*\***
+**1. Understanding Components in React**
 
 Components are the core building blocks in React, combining HTML, CSS, and JavaScript into reusable UI elements. They enable the composition, ordering, and nesting of elements to create complete web pages or applications.
 
-\***\*Code:\*\***
+**Code:**
 
 ```
 // Example of a simple component
@@ -84,12 +84,12 @@ export default function Profile() {
 
 ```
 
-\***\*2. Defining a Component\*\***
+**2. Defining a Component**
 
 - React components are JavaScript functions exported using export default.
 - Component names must start with a capital letter and return JSX markup, which allows embedding HTML-like syntax in JavaScript.
 
-\***\*Code:\*\***
+**Code:**
 
 ```
 // Example of defining a component
@@ -104,7 +104,7 @@ export default function Profile() {
 
 ```
 
-\***\*3. Using Components\*\***
+**3. Using Components**
 
 - Components can be nested within other components.
 - They render to HTML elements in the browser and can be organized within the same file or in separate files for modularity.
