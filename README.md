@@ -30,6 +30,7 @@
 - [🌿 Basics of React Components](#)
   - [🍃 1.4 Your first component](#-)
   - [🍃 1.5 Importing & Exporting Components](#-)
+  - [🍃 1.6 Writing Markup with JSX](#-)
 
 <br>
 
@@ -249,3 +250,56 @@ export default function App() {
 **Recap:**
 
 This section covered the root component, importing/exporting components, usage of default vs named exports, and exporting multiple components from a single file. It emphasized organizing components into separate files to enhance maintainability and reusability in React applications.
+
+<!-- Chapter : 1.6 --------------------------------------------------------------------------------------------------------------------->
+<div align="center"><h2>🌿 Basics of React Components</h2></div>
+
+## 🍃 1.6 Writing Markup with JSX
+
+JSX is a syntax extension for JavaScript that lets you write HTML-like markup inside a JavaScript file. Although there are other ways to write components, most React developers prefer the conciseness of JSX, and most codebases use it.
+
+**1. Understanding JSX in React**
+JSX, a JavaScript syntax extension, enables the integration of HTML-like markup within JavaScript files in React. It's a preferred method due to its conciseness and co-location of rendering logic and markup.
+
+**Notes:**
+
+- JSX is a syntax extension for JavaScript, allowing HTML-like elements in React components.
+- Logic and markup coexist within components for easier synchronization during edits.
+
+**2. JSX Rules and Differences from HTML**
+JSX follows specific rules different from traditional HTML:
+
+- Single Root Element: JSX requires a single parent tag to enclose multiple elements.
+- Explicit Closing Tags: All tags must be explicitly closed (self-closing or with closing tags).
+- camelCase Attributes: Attributes in JSX use camelCase, differing from HTML attributes.
+
+Code:
+
+```
+// JSX example adhering to rules
+<>
+  <h1>Hedy Lamarr's Todos</h1>
+  <img
+    src="https://i.imgur.com/yXOvdOSs.jpg"
+    alt="Hedy Lamarr"
+    className="photo"
+  />
+  <ul>
+    <li>Invent new traffic lights</li>
+    <li>Rehearse a movie scene</li>
+    <li>Improve the spectrum technology</li>
+  </ul>
+</>
+
+```
+
+**3. JSX vs. HTML: Differences and Conversion**
+
+JSX closely resembles HTML but has a few distinctions in syntax and attribute naming conventions.
+Converting HTML to JSX involves addressing these distinctions like single root elements, explicit closing tags, and camelCase attributes.
+
+**Pro-Tip:**
+Using a converter can streamline the process of converting HTML to JSX, reducing the manual effort required.
+
+**Recap:**
+Understanding JSX's purpose in React and its differences from HTML is crucial for writing React components effectively. Following JSX rules ensures proper rendering and avoids errors within components. Using converters can aid in transitioning existing HTML to JSX for React components.
