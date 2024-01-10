@@ -62,6 +62,7 @@ var app = new Vue({
 <!-- Chapter : 1.4 ---------------------------------------------------------------------------------------->
 
 <div align="center"><h2>🌿 Basics of React Components</h2></div>
+
 ## 🍃 1.4 Your first component:
 
 **1. Understanding Components in React**
@@ -133,3 +134,118 @@ export default function Gallery() {
 
 **Notes:**
 Remember, while components facilitate the creation of reusable UI elements, it's crucial to structure them wisely and adhere to best practices to maintain code quality and performance.
+
+<!-- Chapter : 1.5 ---------------------------------------------------------------------------------------->
+
+<div align="center"><h2>🌿 Basics of React Components</h2></div>
+
+## 🍃 1.5 Importing & Exporting Components
+
+**1. Root Component and File Organization**
+
+The root component file in React houses primary components. Organizing components into separate files enhances modularity and reusability.
+
+**Code:**
+
+```
+// App.js - Root component
+
+import Gallery from './Gallery.js';
+
+export default function App() {
+  return (
+    <Gallery />
+  );
+}
+
+```
+
+**2. Exporting and Importing Components**
+
+To modularize components:
+
+- Create a new file for the component.
+- Export the component (default or named).
+- Import the component into the file where it will be used.
+
+**Code:**
+
+```
+// Gallery.js - Contains Profile (not exported) and Gallery (default export)
+
+export default function Gallery() {
+  // ... (uses Profile internally)
+}
+
+// App.js - Imports Gallery from Gallery.js
+import Gallery from './Gallery.js';
+
+export default function App() {
+  return (
+    <Gallery />
+  );
+}
+
+```
+
+**3. Default vs Named Exports**
+
+**A file can have only one default export** but multiple named exports. To avoid confusion, some teams prefer using either default or named exports consistently within a file.
+
+Code:
+
+```
+// Gallery.js - Contains both default and named exports
+
+export default function Gallery() {
+  // ... (default export)
+}
+
+export function Profile() {
+  // ... (named export)
+}
+
+// App.js - Imports both Gallery (default) and Profile (named) from Gallery.js
+
+import Gallery, { Profile } from './Gallery.js';
+
+export default function App() {
+  return (
+    <Profile />
+  );
+}
+
+```
+
+**4. Exporting Multiple Components**
+
+Utilizing named exports allows exporting multiple components from a single file, enhancing flexibility in component usage across the application.
+
+Code:
+
+```
+// Gallery.js - Contains Gallery (default) and Profile (named) exports
+
+export default function Gallery() {
+  // ...
+}
+
+export function Profile() {
+  // ...
+}
+
+// App.js - Imports both Gallery (default) and Profile (named) from Gallery.
+
+import Gallery, { Profile } from './Gallery.js';
+
+export default function App() {
+  return (
+    <Profile />
+  );
+}
+
+```
+
+**Recap:**
+
+This section covered the root component, importing/exporting components, usage of default vs named exports, and exporting multiple components from a single file. It emphasized organizing components into separate files to enhance maintainability and reusability in React applications.
