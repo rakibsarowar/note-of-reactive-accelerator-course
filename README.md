@@ -301,5 +301,7 @@ Converting HTML to JSX involves addressing these distinctions like single root e
 **💎💎 Pro-Tip:**
 Using a converter can streamline the process of converting HTML to JSX, reducing the manual effort required.
 
-**💎💎 Recap:**
+> [!NOTE]\
+> **💎💎 Recap:**
+
 Understanding JSX's purpose in React and its differences from HTML is crucial for writing React components effectively. Following JSX rules ensures proper rendering and avoids errors within components. Using converters can aid in transitioning existing HTML to JSX for React components.
