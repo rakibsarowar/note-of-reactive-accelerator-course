@@ -272,8 +272,10 @@ React কম্পোনেন্টসমূহ হল সাধারণ JavaS
 এদের নাম সবসময় বড় হাতের অক্ষর দিয়ে শুরু হয়।
 এরা JSX মার্কআপ রিটার্ন করে।
 
-<!-- Chapter : 1.5 ---------------------------------------------------------------------------------------->
+<br>
+<br>
 
+<!-- Chapter : 1.5 ---------------------------------------------------------------------------------------->
 <div align="center">🌿 Basics of React Components🌿</div>
 
 ## 🍃 1.5 Importing & Exporting Components
@@ -407,8 +409,10 @@ export default function App() {
 > **Recap:**
 > This section covered the root component, importing/exporting components, usage of default vs named exports, and exporting multiple components from a single file. It emphasized organizing components into separate files to enhance maintainability and reusability in React applications.
 
-<!-- Chapter : 1.6 --------------------------------------------------------------------------------------------------------------------->
-<div align="center"><h2>🌿 Basics of React Components</h2></div>
+<br>
+<br>
+<!-- Chapter : 1.6 ------------------------------------------------------------------------------------------->
+<div align="center">🌿Basics of React Components🌿</div>
 
 ## 🍃 1.6 Writing Markup with JSX
 
@@ -417,10 +421,10 @@ JSX is a syntax extension for JavaScript that lets you write HTML-like markup in
 **🍂 1. Understanding JSX in React**
 JSX, a JavaScript syntax extension, enables the integration of HTML-like markup within JavaScript files in React. It's a preferred method due to its conciseness and co-location of rendering logic and markup.
 
-**🏷️ Notes:**
-
-- JSX is a syntax extension for JavaScript, allowing HTML-like elements in React components.
-- Logic and markup coexist within components for easier synchronization during edits.
+> [!NOTE]\
+>
+> - JSX is a syntax extension for JavaScript, allowing HTML-like elements in React components.
+> - Logic and markup coexist within components for easier synchronization during edits.
 
 **🍂 2. JSX Rules and Differences from HTML**
 JSX follows specific rules different from traditional HTML:
