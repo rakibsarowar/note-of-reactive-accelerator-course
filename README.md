@@ -62,7 +62,7 @@ var app = new Vue({
 
 <!-- Chapter : 1.4 ---------------------------------------------------------------------------------------->
 
-<div align="center"><h2>🌿 Basics of React Components</h2></div>
+<div align="center"><h2>🌿 Basics of React Components🌿</h2></div>
 
 ## 🍃 1.4 Your first component:
 
@@ -147,7 +147,7 @@ With `function Profile() { }` you define a JavaScript function with the name `Pr
 > [!NOTE]\
 > React components are regular JavaScript functions, but **their names must start with a capital letter** or they won’t work!
 
-## Step 3: Add markup
+### Step 3: Add markup
 
 The component returns an `<img />` tag with src and alt attributes. `<img />` is written like HTML, but it is actually JavaScript under the hood! This syntax is called JSX, and it lets you embed markup inside JavaScript.
 
@@ -256,6 +256,7 @@ React-based frameworks take this a step further. Instead of using an empty HTML 
 Still, many websites only use React to add interactivity to existing HTML pages. They have many root components instead of a single one for the entire page. You can use as much—or as little—React as you need.
 
 > [!NOTE]\
+> Few things need to memorize;
 >
 > - React lets you create components, reusable UI elements for your app.
 > - In a React app, every piece of UI is a component.
@@ -263,9 +264,17 @@ Still, many websites only use React to add interactivity to existing HTML pages.
 >   - Their names always begin with a capital letter.
 >   - They return JSX markup.
 
+সার সংক্ষেপ:
+
+React আপনাকে কম্পোনেন্ট তৈরি করতে দেয়, যা আপনার অ্যাপের জন্য পুনর্ব্যবহারযোগ্য UI উপাদান।
+একটি React অ্যাপে, প্রতিটি UI অংশই এক একটি কম্পোনেন্ট।
+React কম্পোনেন্টসমূহ হল সাধারণ JavaScript ফাংশন, তবে এদের কিছু বিশেষ বৈশিষ্ট্য রয়েছে:
+এদের নাম সবসময় বড় হাতের অক্ষর দিয়ে শুরু হয়।
+এরা JSX মার্কআপ রিটার্ন করে।
+
 <!-- Chapter : 1.5 ---------------------------------------------------------------------------------------->
 
-<div align="center"><h2>🌿 Basics of React Components</h2></div>
+<div align="center">🌿 Basics of React Components🌿</div>
 
 ## 🍃 1.5 Importing & Exporting Components
 
@@ -292,9 +301,9 @@ export default function App() {
 
 To modularize components:
 
-- Create a new file for the component.
-- Export the component (default or named).
-- Import the component into the file where it will be used.
+- Make a new JS file to put the components in.
+- Export your function component from that file (using either `default` or `named` exports).
+- Import it in the file where you’ll use the component (using the corresponding technique for importing `default` or `named` exports).
 
 **Code:**
 
@@ -316,9 +325,20 @@ export default function App() {
 
 ```
 
-**🍂 3. Default vs Named Exports**
+> [!NOTE]\
+> You may encounter files that leave off the .js file extension like so:
 
-**A file can have only one default export** but multiple named exports. To avoid confusion, some teams prefer using either default or named exports consistently within a file.
+```
+import Gallery from './Gallery';
+```
+
+> Either './Gallery.js' or './Gallery' will work with React, though the former is closer to how native ES Modules work.
+
+**🍂 3. Default vs Named Exports | Deep Drive**
+
+**A file can have no more than one default export,** but it can have as many named exports as you like.
+
+<img height="300" width="100%" src="./assest/export.JPG"/>
 
 **Code:**
 
@@ -349,6 +369,12 @@ export default function App() {
 
 Utilizing named exports allows exporting multiple components from a single file, enhancing flexibility in component usage across the application.
 
+> How you export your component dictates how you must import it. You will get an error if you try to import a default export the same way you would a named export! This chart can help you keep track:
+
+<img height="300" width="100%" src="./assest/export-2.JPG"/>
+
+When you write a _default_ import, you can put any name you want after `import`. For example, you could write `import Banana from './Button.js'` instead and it would still provide you with the same default export. In contrast, _with named imports, the name has to match on both sides._ That’s why they are called named `imports!`
+
 Code:
 
 ```
@@ -374,9 +400,12 @@ export default function App() {
 
 ```
 
-**💎💎 Recap:**
+> [!NOTE]\
+> Components without names, like export default () => {}, are discouraged because they make debugging harder.
 
-This section covered the root component, importing/exporting components, usage of default vs named exports, and exporting multiple components from a single file. It emphasized organizing components into separate files to enhance maintainability and reusability in React applications.
+> [!NOTE]\
+> **Recap:**
+> This section covered the root component, importing/exporting components, usage of default vs named exports, and exporting multiple components from a single file. It emphasized organizing components into separate files to enhance maintainability and reusability in React applications.
 
 <!-- Chapter : 1.6 --------------------------------------------------------------------------------------------------------------------->
 <div align="center"><h2>🌿 Basics of React Components</h2></div>
