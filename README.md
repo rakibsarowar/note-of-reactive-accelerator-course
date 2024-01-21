@@ -33,6 +33,7 @@
   - [🍃 1.6 Writing Markup with JSX](#-)
 - [🌿 C 03: Managing State](#)
   - [🍃 3.1 Reacting to Input with State](#-)
+  - [🍃 3.2 Choosing the State Structure](#-)
 
 <br>
 
@@ -628,7 +629,7 @@ To help visualize this flow, try drawing each state on paper as a labeled circle
 <div align="center"><h2>Form states</h2></div>
 
 > [!NOTE]\
-> Summery
+> Summery <br>
 > Just check your app, what area or portion will triggers. If triggers need then must have to add the change in the state, what ever it from human or machine by automatic.
 
 ## Step 3: Represent the state in memory with `useState`
@@ -636,7 +637,7 @@ To help visualize this flow, try drawing each state on paper as a labeled circle
 Next you’ll need to represent the visual states of your component in memory with `useState`.
 
 > [!IMPORTANT]\
-> Simplicity is key:
+> Simplicity is key: <br>
 > each piece of state is a “moving piece”, and you want as few “moving pieces” as possible. More complexity leads to more bugs!
 
 <h6>STEP 01:</h6> 
@@ -665,7 +666,7 @@ const [isError, setIsError] = useState(false);
 > Your first idea likely won’t be the best, but that’s ok—refactoring state is a part of the process!
 
 > [!NOTE]\
-> Summery
+> Summery <br>
 > Find out all possible `states` and make a list.
 
 ## Step 4: Remove any non-essential state variables
@@ -693,7 +694,7 @@ const [status, setStatus] = useState('typing'); // 'typing', 'submitting', or 's
 ```
 
 > [!NOTE]\
-> Summery
+> Summery <br>
 > Ask Q \_ Does this state cause a paradox? | Is the same information available in another state variable already? | Can you get the same information from the inverse of another state variable?
 > By this you can reduce unnecessary stauts.
 
@@ -779,8 +780,75 @@ function submitForm(answer) {
 - eclarative programming means describing the UI for each visual state rather than micromanaging the UI (imperative).
 - When developing a component:
 
-1. Identify all its visual states.
-2. Determine the human and computer triggers for state changes.
-3. Model the state with useState.
-4. Remove non-essential state to avoid bugs and paradoxes.
-5. Connect the event handlers to set state.
+1.  Identify all its visual states.
+2.  Determine the human and computer triggers for state changes.
+3.  Model the state with useState.
+4.  Remove non-essential state to avoid bugs and paradoxes.
+5.  Connect the event handlers to set state.
+
+## 🍃 3.2 Choosing the State Structure
+
+### Principles for structuring state
+
+The goal behind these principles is to make state easy to update without introducing mistakes. Removing redundant and duplicate data from state helps ensure that all its pieces stay in sync. This is similar to how a database engineer might want to “normalize” the database structure to reduce the chance of bugs.
+
+While it’s possible to write correct programs even with a suboptimal state structure, there are a few principles that can guide you to make better choices:
+
+1. Group related state. If you always update two or more state variables at the same time, consider merging them into a single state variable.
+2. Avoid contradictions in state. When the state is structured in a way that several pieces of state may contradict and “disagree” with each other, you leave room for mistakes. Try to avoid this.
+3. Avoid redundant state. If you can calculate some information from the component’s props or its existing state variables during rendering, you should not put that information into that component’s state.
+4. Avoid duplication in state. When the same data is duplicated between multiple state variables, or within nested objects, it is difficult to keep them in sync. Reduce duplication when you can.
+5. Avoid deeply nested state. Deeply hierarchical state is not very convenient to update. When possible, prefer to structure state in a flat way.
+
+### 1. Group related state
+
+We sould skip same type multiple state if it can marge in one.
+
+```
+const [x, setX] = useState(0);
+const [y, setY] = useState(0);
+```
+
+Rather, if some two state variables always change together, it might be a good idea to unify them into a single state variable.
+
+```
+const [position, setPosition] = useState(
+  {
+    x: 0,
+    y: 0
+  }
+  );
+```
+
+> [!NOTE]\
+> Pitfall
+> If your state variable is an object, remember that you can’t update only one field in it without explicitly copying the other fields. For example, you can’t do `setPosition({ x: 100 })` in the above example because it would not have the y property at all! Instead, if you wanted to set x alone, you would either do `setPosition({ ...position, x: 100 })`, or split them into two state variables and do `setX(100)`.
+> মানে যখন একাধিক স্টেট কে আমরা একটিতে নিতে আসবো। আমাদের কিন্তু একই সাথে তা আপডেট করতে হবে। যদি আমরা কোন একটি কে `sync` না করি তবে আমরা স্টেট থেকে তা কপি করে নিব। ...value1
+
+## Avoid contradictions in state
+
+- Read Documentation .
+
+## Avoid redundant state
+
+> redundant_অপ্রয়োজনীয়
+
+- Read Documentation .
+
+## Avoid duplication in state
+
+- [https://react.dev/learn/choosing-the-state-structure#avoid-duplication-in-state]Read Documentation .
+
+## Avoid deeply nested state
+
+[! Read Documentation ](https://react.dev/learn/choosing-the-state-structure#avoid-duplication-in-state).
+
+Recap
+
+- If two state variables always update together, consider merging them into one.
+- Choose your state variables carefully to avoid creating “impossible” states.
+- Structure your state in a way that reduces the chances that you’ll make a mistake updating it.
+- Avoid redundant and duplicate state so that you don’t need to keep it in sync.
+- Don’t put props into state unless you specifically want to prevent updates.
+- For UI patterns like selection, keep ID or index in state instead of the object itself.
+- If updating deeply nested state is complicated, try flattening it.
