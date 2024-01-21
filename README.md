@@ -27,10 +27,12 @@
 - [🌿 1.1 Introduction to React](#)
 - [🌿 1.2 React Installation & Development Env](#)
 - [🌿 1.3 How React works: Virtual DOM](#)
-- [🌿 Basics of React Components](#)
+- [🌿 C 01: Basics of React Components](#)
   - [🍃 1.4 Your first component](#-)
   - [🍃 1.5 Importing & Exporting Components](#-)
   - [🍃 1.6 Writing Markup with JSX](#-)
+- [🌿 C 03: Managing State](#)
+  - [🍃 3.1 Reacting to Input with State](#-)
 
 <br>
 
@@ -465,3 +467,320 @@ Using a converter can streamline the process of converting HTML to JSX, reducing
 > **💎💎 Recap:**
 
 Understanding JSX's purpose in React and its differences from HTML is crucial for writing React components effectively. Following JSX rules ensures proper rendering and avoids errors within components. Using converters can aid in transitioning existing HTML to JSX for React components.
+
+<!-- Chapter 03 ------------------------------------------------------------------------------------------------------------------------------>
+
+## 🍃 3.1 Reacting to Input with State
+
+React provides a declarative way to manipulate the UI. Instead of manipulating individual pieces of the UI directly, you describe the different states that your component can be in, and switch between them in response to the user input. This is similar to how designers think about the UI.
+
+- Declarative programming means describing the UI for each visual state rather than micromanaging the UI (imperative).
+- Imperative programming means you have to “command” each element, from the spinner to the button, telling the computer how to update the UI.
+
+### 3.1.1 Thinking about UI declaratively
+
+To better understand how to think in React, you’ll walk through reimplementing this UI in React below:
+
+1. Identify your component’s different visual states
+2. Determine what triggers those state changes
+3. Represent the state in memory using useState
+4. Remove any non-essential state variables
+5. Connect the event handlers to set the state
+
+### 3.1.1.1 Step 1: Identify your component’s different visual states
+
+First, you need to visualize all the different “states” of the UI the user might see:
+
+1. Empty: Form has a disabled “Submit” button.
+2. Typing: Form has an enabled “Submit” button.
+3. Submitting: Form is completely disabled. Spinner is shown.
+4. Success: “Thank you” message is shown instead of a form.
+5. Error: Same as Typing state, but with an extra error message.
+
+Just like a designer, you’ll want to “mock up” or create “mocks” for the different states before you add logic. For example, here is a mock for just the visual part of the form. This mock is controlled by a prop called status with a default value of 'empty':
+
+You could call that prop anything you like, the naming is not important. Try editing status = 'empty' to status = 'success' to see the success message appear. Mocking lets you quickly iterate on the UI before you wire up any logic. Here is a more fleshed out prototype of the same component, still “controlled” by the status prop:
+
+```
+export default function Form({
+  // Try 'submitting', 'error', 'success':
+  status = 'empty'
+}) {
+  if (status === 'success') {
+    return <h1>That's right!</h1>
+  }
+  return (
+    <>
+      <h2>City quiz</h2>
+      <p>
+        In which city is there a billboard that turns air into drinkable water?
+      </p>
+      <form>
+        <textarea disabled={
+          status === 'submitting'
+        } />
+        <br />
+        <button disabled={
+          status === 'empty' ||
+          status === 'submitting'
+        }>
+          Submit
+        </button>
+        {status === 'error' &&
+          <p className="Error">
+            Good guess but a wrong answer. Try again!
+          </p>
+        }
+      </form>
+      </>
+  );
+}
+```
+
+> [!NOTE]\
+> **living styleguides” or “storybooks**
+> If a component has a lot of visual states, it can be convenient to show them all on one page and this is called `living styleguides` or `storybooks`.
+
+```
+// App.jsx page ---------------------------------------------------------------
+
+import Form from './Form.js';
+
+let statuses = [
+'empty',
+'typing',
+'submitting',
+'success',
+'error',
+];
+
+export default function App() {
+return (
+  <>
+    {statuses.map(status => (
+      <section key={status}>
+        <h4>Form ({status}):</h4>
+        <Form status={status} />
+      </section>
+    ))}
+  </>
+);
+}
+
+```
+
+```
+// Form.jsx page ---------------------------------------------------------------
+
+export default function Form({ status }) {
+  if (status === 'success') {
+    return <h1>That's right!</h1>
+  }
+  return (
+    <form>
+      <textarea disabled={
+        status === 'submitting'
+      } />
+      <br />
+      <button disabled={
+        status === 'empty' ||
+        status === 'submitting'
+      }>
+        Submit
+      </button>
+      {status === 'error' &&
+        <p className="Error">
+          Good guess but a wrong answer. Try again!
+        </p>
+      }
+    </form>
+  );
+}
+
+```
+
+> [!NOTE]\
+> Summery
+
+### Step 2: Determine what triggers those state changes
+
+You can trigger state updates in response to two kinds of inputs:
+
+- **Human inputs**, like clicking a button, typing in a field, navigating a link.
+- **Computer inputs**, like a network response arriving, a timeout completing, an image loading.
+
+<img src="./assest/reacting-to-input.png">
+<br>
+
+In both cases, you must set `state variables` to update the UI. For the form you’re developing, you will need to change state in response to a few different inputs:
+
+- **Changing the text input (human)** should switch it from the Empty state to the Typing state or back, depending on whether the text box is empty or not.
+- **Clicking the Submit button (human)** should switch it to the Submitting state.
+- **Successful network response (computer)** should switch it to the Success state.
+- **Failed network response (computer)** should switch it to the Error state with the matching error message.
+
+> [!NOTE]\
+> Notice that human inputs often require `event handlers`!
+
+To help visualize this flow, try drawing each state on paper as a labeled circle, and each change between two states as an arrow. You can sketch out many flows this way and sort out bugs long before implementation.
+<img src="./assest/responding_to_input_flow.webp">
+
+<div align="center"><h2>Form states</h2></div>
+
+> [!NOTE]\
+> Summery
+> Just check your app, what area or portion will triggers. If triggers need then must have to add the change in the state, what ever it from human or machine by automatic.
+
+## Step 3: Represent the state in memory with `useState`
+
+Next you’ll need to represent the visual states of your component in memory with `useState`.
+
+> [!IMPORTANT]\
+> Simplicity is key:
+> each piece of state is a “moving piece”, and you want as few “moving pieces” as possible. More complexity leads to more bugs!
+
+<h6>STEP 01:</h6> 
+Start with the state that absolutely must be there. For example, you’ll need to store the answer for the input, and the error (if it exists) to store the last error:
+
+```
+const [answer, setAnswer] = useState('');
+const [error, setError] = useState(null);
+
+```
+
+<h6>STEP 02:</h6> 
+Then, you’ll need a state variable representing which one of the visual states that you want to display. There’s usually more than a single way to represent that in memory, so you’ll need to experiment with it.
+
+If you struggle to think of the best way immediately, start by adding enough state that you’re definitely sure that all the possible visual states are covered:
+
+```
+const [isEmpty, setIsEmpty] = useState(true);
+const [isTyping, setIsTyping] = useState(false);
+const [isSubmitting, setIsSubmitting] = useState(false);
+const [isSuccess, setIsSuccess] = useState(false);
+const [isError, setIsError] = useState(false);
+```
+
+> [!NOTE]\
+> Your first idea likely won’t be the best, but that’s ok—refactoring state is a part of the process!
+
+> [!NOTE]\
+> Summery
+> Find out all possible `states` and make a list.
+
+## Step 4: Remove any non-essential state variables
+
+- you never want to show an error message and disable the input at the same time, or the user won’t be able to correct the error!
+- You want to avoid duplication in the state content so you’re only tracking what is essential.
+- Your goal is to prevent the cases where the state in memory doesn’t represent any valid UI that you’d want a user to see.
+
+Here are some questions you can ask about your state variables:
+
+- Does this state cause a paradox?
+  For example, `isTyping` and `isSubmitting` can’t both be true. A paradox usually means that the state is not constrained enough. There are four possible combinations of two booleans, but only three correspond to valid `states`. To remove the “impossible” state, you can combine these into a status that must be one of three values: `'typing'`, `'submitting'`, or `'success'`.
+- Is the same information available in another state variable already?
+  Another paradox: `isEmpty` and `isTyping` can’t be true at the same time. By making them separate state variables, you risk them going out of sync and causing bugs. Fortunately, you can remove `isEmpty` and instead check `answer.length === 0`.
+- Can you get the same information from the inverse of another state variable?
+  `isError` is not needed because you can check error `!== null` instead.
+
+After this clean-up, you’re left with 3 (down from 7!) essential state variables:
+
+```
+const [answer, setAnswer] = useState('');
+const [error, setError] = useState(null);
+const [status, setStatus] = useState('typing'); // 'typing', 'submitting', or 'success'
+
+```
+
+> [!NOTE]\
+> Summery
+> Ask Q \_ Does this state cause a paradox? | Is the same information available in another state variable already? | Can you get the same information from the inverse of another state variable?
+> By this you can reduce unnecessary stauts.
+
+## Step 5: Connect the event handlers to set state
+
+Lastly, create event handlers that update the state. Below is the final form, with all event handlers wired up:
+
+```
+import { useState } from 'react';
+
+export default function Form() {
+  const [answer, setAnswer] = useState('');
+  const [error, setError] = useState(null);
+  const [status, setStatus] = useState('typing');
+
+  if (status === 'success') {
+    return <h1>That's right!</h1>
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setStatus('submitting');
+    try {
+      await submitForm(answer);
+      setStatus('success');
+    } catch (err) {
+      setStatus('typing');
+      setError(err);
+    }
+  }
+
+  function handleTextareaChange(e) {
+    setAnswer(e.target.value);
+  }
+
+  return (
+    <>
+      <h2>City quiz</h2>
+      <p>
+        In which city is there a billboard that turns air into drinkable water?
+      </p>
+      <form onSubmit={handleSubmit}>
+        <textarea
+          value={answer}
+          onChange={handleTextareaChange}
+          disabled={status === 'submitting'}
+        />
+        <br />
+        <button disabled={
+          answer.length === 0 ||
+          status === 'submitting'
+        }>
+          Submit
+        </button>
+        {error !== null &&
+          <p className="Error">
+            {error.message}
+          </p>
+        }
+      </form>
+    </>
+  );
+}
+
+function submitForm(answer) {
+  // Pretend it's hitting the network.
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      let shouldError = answer.toLowerCase() !== 'lima'
+      if (shouldError) {
+        reject(new Error('Good guess but a wrong answer. Try again!'));
+      } else {
+        resolve();
+      }
+    }, 1500);
+  });
+}
+
+```
+
+### Recap
+
+- eclarative programming means describing the UI for each visual state rather than micromanaging the UI (imperative).
+- When developing a component:
+
+1. Identify all its visual states.
+2. Determine the human and computer triggers for state changes.
+3. Model the state with useState.
+4. Remove non-essential state to avoid bugs and paradoxes.
+5. Connect the event handlers to set state.
